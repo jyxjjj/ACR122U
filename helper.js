@@ -15,6 +15,9 @@ Buffer.prototype.getData = function () {
     data = this.toString('hex');
     return data.substr(0, data.length - 4);
 };
+Buffer.prototype.getDataBuffer = function () {
+    return this.slice(0, data.length - 2);
+};
 Buffer.prototype.getStatus = function () {
     data = this.toString('hex');
     return data.substr(-4, 4);

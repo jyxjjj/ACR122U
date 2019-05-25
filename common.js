@@ -2,6 +2,10 @@ log = function (obj) {
     console.log(obj);
 };
 
+sleep = function (time) {
+    Atomics.wait(new Int32Array(new SharedArrayBuffer(4)), 0, 0, time);
+};
+
 meaning = function (statusCode) {
     let statusCodes = {
         '^9000$': '成功',
