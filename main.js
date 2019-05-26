@@ -1,13 +1,12 @@
 require('./common');
-require('./helper');
 require('./handle');
+require('./console');
 
 getCard = function (card) {
     global.card = card;
     card.issueCommand([0xFF, 0xCA, 0x00, 0x00, 0x04], (err, res) => {
         if (res.getStatus().addspace() == '90 00') {
-            log(`卡号：${res.getData().addspace()}`);
-            log(`十进制卡号：${res.getData().HextoDec()}`);
+            log(`卡UID：${res.getData().addspace()}`, true);
         } else {
             log(`读取卡号失败[${res.getStatus()}]：${meaning(res.getStatus())}`);
         }
@@ -53,8 +52,17 @@ readData = function (card, block) {
     let cmd = [0xFF, 0xB0, 0x00, block, 0x10];
     card.issueCommand(cmd, (err, res) => {
         if (res.getStatus().addspace() == '90 00') {
-            log(`读取块${block}成功：${res.getData().addspace()}`);
-            log(`====${res.getDataBuffer().toString('ascii')}====`)
+            if (block == 0x00) {
+                log(`${"↓".repeat(28)}扇区0${"↓".repeat(28)}`, true);
+                log(`十六进制卡号：${res.getDataBuffer().slice(0, 4).addspace()}`, true);
+                log(`卡号异或：${res.getDataBuffer().slice(4, 5).addspace()}`, true);
+                log(`十进制卡号：${res.getDataBuffer().slice(0, 4).HextoDec()}`, true);
+                log(`制造商：${res.getDataBuffer().getRight().toString('ascii')}`, true);
+            }
+            log(`读取块${block}成功：${res.getData().addspace()}`, true);
+            if ((block + 1) % 4 == 0 && (parseInt((block + 1) / 4)) != 16) {
+                log(`${"↓".repeat(28)}扇区${parseInt((block + 1) / 4)}${"↓".repeat(28)}`, true);
+            }
         } else {
             log(`读取块${block}失败[${res.getStatus()}]：${meaning(res.getStatus())}`);
         }
@@ -70,4 +78,18 @@ readData = function (card, block) {
 //    auth(global.card, 0x03, 0x61, 0x01);    //从01的密钥B认证块03
 //    readData(global.card, 0x03);    //读块03
 
-require('./console');
+
+setTimeout(() => { loadKey(global.card, 0x00); }, 100);
+setTimeout(() => { loadKey(global.card, 0x01); }, 200);
+setTimeout(() => { desmg(); }, 300);
+desmg = function () {
+    diff = 50;
+    for (let i = 0; i < 64; i++) {
+        setTimeout(() => { auth(global.card, i, 0x60, 0x00); }, 4 * i * diff);
+        setTimeout(() => { auth(global.card, i, 0x61, 0x01); }, 4 * i * diff + diff);
+        setTimeout(() => { readData(global.card, i); }, 4 * i * diff + 2 * diff);
+        if (i == 63) {
+            setTimeout(() => { process.exit(0); }, 4 * i * diff + 3 * diff);
+        }
+    }
+}

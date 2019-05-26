@@ -82,11 +82,14 @@ removed = function (obj) {
 };
 //#endregion
 //#region 卡事件
-issued = function (card, cmd) {
-
+issued = function (obj) {
+    let card = obj.card;
+    let cmd = obj.command;
 };
-received = function (card, cmd, res) {
-
+received = function (obj) {
+    let card = obj.card;
+    let cmd = obj.command;
+    let res = obj.response;
 };
 //#endregion
 const Devices = require('smartcard').Devices;

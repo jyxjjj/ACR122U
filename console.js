@@ -4,13 +4,12 @@ const rl = readline.createInterface({
     output: process.stdout
 });
 
-rl.on('line', function (input) {
-    eval(input);
-    rl.prompt('>');
+rl.on('line', (input) => {
+    eval(`try { ${input} } catch (e) { log(e); }`);
 });
 
-rl.on('close', function () {
+rl.on('close', () => {
     process.exit(0);
 });
 
-rl.prompt('>');
+// setTimeout(() => { rl.prompt('>'); }, 1000);

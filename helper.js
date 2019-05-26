@@ -1,22 +1,35 @@
 String.prototype.HextoDec = function () {
-    str = this.toString().replace(' ', '');
+    str = this.replace(' ', '');
     return parseInt(str, 16);
 };
 String.prototype.addspace = function () {
-    hstr = this.toString();
-    hstr = hstr.toUpperCase();
+    hstr = this.toUpperCase();
     let temp = '';
     for (let i = 0; i <= hstr.length; i = i + 2) {
         temp += hstr.substr(i, 2) + ' ';
     }
     return temp.trim();
 };
+Buffer.prototype.HextoDec = function () {
+    data = this.toString('hex');
+    return data.HextoDec();
+}
+Buffer.prototype.addspace = function () {
+    data = this.toString('hex');
+    return data.addspace();
+}
 Buffer.prototype.getData = function () {
     data = this.toString('hex');
     return data.substr(0, data.length - 4);
 };
 Buffer.prototype.getDataBuffer = function () {
-    return this.slice(0, data.length - 2);
+    return this.slice(0, this.length - 2);
+};
+Buffer.prototype.getLeft = function () {
+    return this.slice(0, 8);
+};
+Buffer.prototype.getRight = function () {
+    return this.slice(8, 16);
 };
 Buffer.prototype.getStatus = function () {
     data = this.toString('hex');

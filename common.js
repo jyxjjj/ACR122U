@@ -1,5 +1,10 @@
-log = function (obj) {
-    console.log(obj);
+require('./helper')
+log = function (obj, force = false) {
+    if (force) {
+        console.log(obj);
+    } else {
+        // console.debug(obj);
+    }
 };
 
 sleep = function (time) {
