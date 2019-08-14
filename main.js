@@ -83,7 +83,7 @@ setTimeout(() => { loadKey(global.card, 0x00); }, 100);
 setTimeout(() => { loadKey(global.card, 0x01); }, 200);
 setTimeout(() => { desmg(); }, 300);
 desmg = function () {
-    diff = 50;
+    let diff = 50;
     for (let i = 0; i < 64; i++) {
         setTimeout(() => { auth(global.card, i, 0x60, 0x00); }, 4 * i * diff);
         setTimeout(() => { auth(global.card, i, 0x61, 0x01); }, 4 * i * diff + diff);
@@ -92,4 +92,4 @@ desmg = function () {
             setTimeout(() => { process.exit(0); }, 4 * i * diff + 3 * diff);
         }
     }
-}
+};

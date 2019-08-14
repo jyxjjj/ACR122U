@@ -1,25 +1,31 @@
+/**
+ * @return {number}
+ */
 String.prototype.HextoDec = function () {
-    str = this.replace(' ', '');
+    let str = this.replace(' ', '');
     return parseInt(str, 16);
 };
 String.prototype.addspace = function () {
-    hstr = this.toUpperCase();
+    let hstr = this.toUpperCase();
     let temp = '';
     for (let i = 0; i <= hstr.length; i = i + 2) {
         temp += hstr.substr(i, 2) + ' ';
     }
     return temp.trim();
 };
+/**
+ * @return {number}
+ */
 Buffer.prototype.HextoDec = function () {
-    data = this.toString('hex');
+    let data = this.toString('hex');
     return data.HextoDec();
-}
+};
 Buffer.prototype.addspace = function () {
-    data = this.toString('hex');
+    let data = this.toString('hex');
     return data.addspace();
-}
+};
 Buffer.prototype.getData = function () {
-    data = this.toString('hex');
+    let data = this.toString('hex');
     return data.substr(0, data.length - 4);
 };
 Buffer.prototype.getDataBuffer = function () {
@@ -32,7 +38,7 @@ Buffer.prototype.getRight = function () {
     return this.slice(8, 16);
 };
 Buffer.prototype.getStatus = function () {
-    data = this.toString('hex');
+    let data = this.toString('hex');
     return data.substr(-4, 4);
 };
 Buffer.prototype.getxor = function () {
@@ -43,6 +49,6 @@ Buffer.prototype.getxor = function () {
         } else {
             r = r ^ v;
         }
-    })
+    });
     return r.toString(16).toUpperCase();
 };

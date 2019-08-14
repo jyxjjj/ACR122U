@@ -1,4 +1,4 @@
-require('./helper')
+require('./helper');
 log = function (obj, force = false) {
     if (force) {
         console.log(obj);
@@ -48,9 +48,9 @@ meaning = function (statusCode) {
         '^6e(.{2})$': '检查错误： 不支持的类',
         '^6f(.{2})$': '检查错误： 没有精确的诊断'
     };
-    for (var prop in statusCodes) {
+    for (let prop in statusCodes) {
         if (statusCodes.hasOwnProperty(prop)) {
-            var result = statusCodes[prop];
+            let result = statusCodes[prop];
             if (statusCode.match(prop)) {
                 return result;
             }
